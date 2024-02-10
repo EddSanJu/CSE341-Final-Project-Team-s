@@ -1,0 +1,34 @@
+@baseUrl = http://localhost:3000
+### localhost request links
+### Gets all users
+GET {{baseUrl}}/users HTTP/1.1
+
+### Gets a contact by id
+GET {{baseUrl}}/users/65a21c77623817016dc90dac HTTP/1.1
+
+### Create a contact
+POST {{baseUrl}}/users/
+Content-Type: application/json
+
+{
+    "name": "client name",
+    "relation": "family",
+    "birthday": "2000-01-01",
+    "email": "new@contact.com",
+    "phone": "+529984834032"
+}
+
+### Updating a contact by Id
+PUT {{baseUrl}}/users/65b578286cf60d9e0eb49224
+Content-Type: application/json
+
+{
+    "name": "Miguel Prot",
+    "relation": "family",
+    "birthday": "ss-20-02",
+    "phone": "9981212135",
+    "email": "prot.garcia@gmail.com"
+}
+
+### Deleting an specific contact
+DELETE {{baseUrl}}/users/65b58ffc33c4a3da393a8dfc
