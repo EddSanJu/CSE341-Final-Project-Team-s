@@ -9,14 +9,14 @@ const getUser = async (req, res) => {
     try {
         const id = req.params.id || null;
         let result = null;
-        
+
         if (id) {
-            result = await mongodb.getDatabase().db().collection(collection).find({_id: new ObjectId(id)});
+            result = await mongodb.getDatabase().db().collection(collection).find({ _id: new ObjectId(id) });
             result.toArray().then((Users) => {
                 res.setHeader(`Content-Type`, `application/json`)
                 res.status(200).send(Users)
             });
-        }else {
+        } else {
             // console.log(await mongodb.getDatabase().db().listCollections().toArray());
             result = await mongodb.getDatabase().db().collection(collection).find();
             result.toArray().then((Users) => {
@@ -24,7 +24,7 @@ const getUser = async (req, res) => {
                 res.status(200).send(Users)
             });
         }
-        
+
     } catch (error) {
         console.error('Error getting data:', error);
         res.status(500).send('Internal Server Error');
@@ -36,12 +36,12 @@ const createUser = async (req, res) => {
 
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() })
+        return res.status(422).json({ errors: errors.array() })
     }
     try {
         const contact = {
             name: req.body.name,
-            relation: req.body.relation,
+            lastname: req.body.lastname,
             birthday: req.body.birthday,
             email: req.body.email,
             phone: req.body.phone
@@ -65,7 +65,7 @@ const updateUser = async (req, res) => {
         const id = req.params.id;
         const contact = {
             name: req.body.name,
-            relation: req.body.relation,
+            lastname: req.body.lastname,
             birthday: req.body.birthday,
             email: req.body.email,
             phone: req.body.phone
@@ -73,10 +73,10 @@ const updateUser = async (req, res) => {
 
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() })
+            return res.status(422).json({ errors: errors.array() })
         }
 
-        const response = await mongodb.getDatabase().db().collection(collection).updateOne({_id: new ObjectId(id)}, {$set: contact});
+        const response = await mongodb.getDatabase().db().collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: contact });
         if (response.acknowledged) {
             res.status(200).json(response);
         } else {
@@ -92,7 +92,7 @@ const deleteUser = async (req, res) => {
     // #swagger.tags = ['Users']
     const id = new ObjectId(req.params.id)
     const response = await mongodb.getDatabase().db().collection(collection).deleteOne({ _id: id }, true);
-    
+
     if (response.deletedCount > 0) {
         res.status(200).send('Item deleted');
     } else {
