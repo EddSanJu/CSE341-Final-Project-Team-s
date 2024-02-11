@@ -10,8 +10,8 @@ const schemas = ['https', 'http'];
 
 const doc = {
     info: {
-        title: 'Team Project API',
-        description: 'Team Api'
+        title: 'Task Manager App',
+        description: 'Retrieve data for an authenticated user through web tokens making REST requests GET, POST, PUT, DELETE from a Tasks database in MongoDB.'
     },
     host: host,
     schemes: schemas
