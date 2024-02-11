@@ -5,11 +5,11 @@
     "description": "API to save numbers/emails for the contacts like an online agenda",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341w34lastproject.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http",
-    "https"
+    "https",
+    "http"
   ],
   "paths": {
     "/": {
