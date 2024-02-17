@@ -1,15 +1,15 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "AGENDA API",
-    "description": "API to save numbers/emails for the contacts like an online agenda",
+    "title": "Task Manager App",
+    "description": "Retrieve data for an authenticated user through web tokens making REST requests GET, POST, PUT, DELETE from a Tasks database in MongoDB.",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341w34lastproject.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http",
-    "https"
+    "https",
+    "http"
   ],
   "paths": {
     "/": {
@@ -166,7 +166,7 @@
                 "name": {
                   "example": "any"
                 },
-                "relation": {
+                "lastname": {
                   "example": "any"
                 },
                 "birthday": {
