@@ -39,19 +39,21 @@ const createUser = async (req, res) => {
       return res.status(422).json({ errors: errors.array() })
     }
     try {
-        const contact = {
+        const user = {
             name: req.body.name,
-            relation: req.body.relation,
-            birthday: req.body.birthday,
+            lastname: req.body.lastname,
             email: req.body.email,
-            phone: req.body.phone
+            birthday: req.body.birthday,
+            phone: req.body.phone,
+            address: req.body.address,
+            occupation: req.body.occupation
         }
 
-        const response = await mongodb.getDatabase().db().collection(collection).insertOne(contact);
+        const response = await mongodb.getDatabase().db().collection(collection).insertOne(user);
         if (response.acknowledged) {
             res.status(200).send(response);
         } else {
-            res.status(500).send(response.error || 'There was an error creating the contact.');
+            res.status(500).send(response.error || 'There was an error creating the user.');
         }
     } catch (err) {
         console.error(err);
@@ -63,12 +65,14 @@ const updateUser = async (req, res) => {
     // #swagger.tags = ['Users']
     try {
         const id = req.params.id;
-        const contact = {
+        const user = {
             name: req.body.name,
-            relation: req.body.relation,
-            birthday: req.body.birthday,
+            lastname: req.body.lastname,
             email: req.body.email,
-            phone: req.body.phone
+            birthday: req.body.birthday,
+            phone: req.body.phone,
+            address: req.body.address,
+            occupation: req.body.occupation
         }
 
         const errors = validationResult(req)
@@ -76,11 +80,11 @@ const updateUser = async (req, res) => {
         return res.status(422).json({ errors: errors.array() })
         }
 
-        const response = await mongodb.getDatabase().db().collection(collection).updateOne({_id: new ObjectId(id)}, {$set: contact});
+        const response = await mongodb.getDatabase().db().collection(collection).updateOne({_id: new ObjectId(id)}, {$set: user});
         if (response.acknowledged) {
             res.status(200).json(response);
         } else {
-            res.status(500).json(response.error || 'There was an error updating the contact.');
+            res.status(500).json(response.error || 'There was an error updating the user.');
         }
     } catch (err) {
         console.error(err);
@@ -96,7 +100,26 @@ const deleteUser = async (req, res) => {
     if (response.deletedCount > 0) {
         res.status(200).send('Item deleted');
     } else {
-        res.status(500).json(response.error || 'There was an error deleting the contact');
+        res.status(500).json(response.error || 'There was an error deleting the user');
+    }
+}
+
+const userEmailExist = async (email) => {
+    try {
+        const exist = false;
+        let result = null;
+        
+        if (email) {
+            result = await mongodb.getDatabase().db().collection(collection).find({email: email}).toArray;
+            console.log(result);
+            exist = Boolean(result);
+        }
+
+        return exist;
+        
+    } catch (error) {
+        console.error('Error getting data:', error);
+        return false;
     }
 }
 
@@ -104,5 +127,6 @@ module.exports = {
     getUser,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    userEmailExist
 }

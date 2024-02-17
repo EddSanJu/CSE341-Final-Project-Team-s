@@ -22,6 +22,35 @@
         }
       }
     },
+    "/login": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "The authentication use github validation that response to the callback url, in this case /github/callback, for this reason this endpoint doesn\\'t have a response.",
+        "responses": {
+          "200": {
+            "description": "OK, Github will response to /github/callback with success and the neccesary data"
+          },
+          "": {
+            "description": "If failed, then response to the same endpoint and this endpoint will receive the status, 400, 500, etc."
+          }
+        }
+      }
+    },
+    "/logout": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "This endpoint destroy the session if the user is logged in",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/users/": {
       "get": {
         "tags": [
@@ -55,16 +84,22 @@
                 "name": {
                   "example": "any"
                 },
-                "relation": {
-                  "example": "any"
-                },
-                "birthday": {
+                "lastname": {
                   "example": "any"
                 },
                 "email": {
                   "example": "any"
                 },
+                "birthday": {
+                  "example": "any"
+                },
                 "phone": {
+                  "example": "any"
+                },
+                "address": {
+                  "example": "any"
+                },
+                "occupation": {
                   "example": "any"
                 }
               }
