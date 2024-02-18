@@ -64,6 +64,9 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -110,6 +113,9 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "422": {
             "description": "Unprocessable Entity"
           },
@@ -140,6 +146,9 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -169,13 +178,19 @@
                 "lastname": {
                   "example": "any"
                 },
-                "birthday": {
-                  "example": "any"
-                },
                 "email": {
                   "example": "any"
                 },
+                "birthday": {
+                  "example": "any"
+                },
                 "phone": {
+                  "example": "any"
+                },
+                "address": {
+                  "example": "any"
+                },
+                "occupation": {
                   "example": "any"
                 }
               }
@@ -185,6 +200,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "422": {
             "description": "Unprocessable Entity"
@@ -210,6 +228,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error"
