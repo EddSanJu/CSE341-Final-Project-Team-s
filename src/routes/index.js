@@ -7,6 +7,7 @@ routes.get('/', (req, res) => {
     res.send(req.session.user !== undefined ? `Logged In as ${req.session.user.displayName}` : 'Logged Out | Welcome to AGENDA API');
 });
 routes.use('/users', require('./users'))
+routes.use('/tasks', require('./tasks'))
 
 //calling the swagger routes here swagger don't generate the routes api-docs
 routes.use('/api-docs', swaggerUI.serve)

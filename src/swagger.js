@@ -5,8 +5,8 @@ const swaggerAutogen = require('swagger-autogen')();
 // const host = 'crud-agenda-2hjq.onrender.com';
 // const schemas = ['https', 'http'];
 
-const host = 'cse341w34lastproject.onrender.com';
-const schemas = ['https', 'http'];
+const host = 'crud-agenda-2hjq.onrender.com';
+const schemas = ['https'];
 
 const doc = {
     info: {
