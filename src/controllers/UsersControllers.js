@@ -108,15 +108,25 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     // #swagger.tags = ['Users']
-    console.log(req.session.user._json.login)
-    // const id = new ObjectId(req.params.id)
-    // const response = await mongodb.getDatabase().db().collection(collection).deleteOne({ _id: id }, true);
+    console.log(req.session.user)
+    const id = new ObjectId(req.params.id)
+    const response = await mongodb.getDatabase().db().collection(collection).deleteOne({ _id: id }, true);
 
-    // if (response.deletedCount > 0) {
-    //     res.status(200).send('Item deleted');
-    // } else {
-    //     res.status(500).json(response.error || 'There was an error deleting the user');
-    // }
+    if (response.deletedCount > 0) {
+        res.status(200).send('Item deleted');
+
+        //========== PENDING TO BE FIXED ===========
+        // if (req.session.user.id == req.params.id) {
+        //     req.logout(function (err) {
+        //         console.log("error")
+        //         if (err) { return next(err); }
+
+        //     })
+        //     res.redirect('./');
+        // }
+    } else {
+        res.status(500).json(response.error || 'There was an error deleting the user');
+    }
 }
 
 const gitHubUserExist = async (gitHubUser) => {

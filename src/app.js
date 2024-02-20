@@ -49,7 +49,7 @@ passport.use(new GithubStrategy(
             bio: profile._json.bio
         }
         createDbUser(user).then(response => {
-            return done(null, profile)
+            return done(null, { ...profile, id: response.insertedId })
         })
     }
 ));
