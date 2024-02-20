@@ -15,9 +15,9 @@ const getNote = async (req, res) => {
             result = await mongodb.getDatabase().db().collection(collection).find();
         }
 
-        result.toArray().then((notes) => {
+        result.toArray().then((note) => {
             res.setHeader('Content-Type', 'application/json');
-            res.status(200).send(notes);
+            res.status(200).send(note);
         });
 
     } catch (error) {
