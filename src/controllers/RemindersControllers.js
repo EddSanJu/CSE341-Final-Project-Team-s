@@ -80,7 +80,7 @@ const updateReminder = async (req, res) => {
     console.log(req.body)
     // #swagger.tags = ['Reminders']
     try {
-        const id = req.params.id;
+        const id = req.params.reminderId;
         const reminder = {
             title: req.body.title,
             description: req.body.description,
