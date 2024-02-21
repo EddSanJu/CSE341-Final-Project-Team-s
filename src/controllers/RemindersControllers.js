@@ -31,6 +31,8 @@ const getReminders = async (req, res) => {
 }
 
 const createReminder = async (req, res) => {
+        // #swagger.tags = ['Reminders']
+
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() })
@@ -56,6 +58,8 @@ const createReminder = async (req, res) => {
 }
 
 const getReminderById = async (req, res) => {
+        // #swagger.tags = ['Reminders']
+
     try {
         const reminderId = req.params.reminderId;
         const reminder = await mongodb.getDatabase().db().collection(collection).findOne({ _id: new ObjectId(reminderId) });
@@ -72,6 +76,8 @@ const getReminderById = async (req, res) => {
 }
 
 const deleteReminder = async (req, res) => {
+        // #swagger.tags = ['Reminders']
+
     const reminderId = new ObjectId(req.params.reminderId)
     const response = await mongodb.getDatabase().db().collection(collection).deleteOne({ _id: reminderId }, true);
 

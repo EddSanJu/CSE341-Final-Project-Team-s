@@ -5,6 +5,8 @@ const { validationResult } = require('express-validator');
 const collection = 'notes';
 
 const getNote = async (req, res) => {
+    // #swagger.tags = ['Notes']
+
     try {
         const id = req.params.id || null;
         let result = null;
@@ -27,6 +29,7 @@ const getNote = async (req, res) => {
 };
 
 const getNoteById = async (req, res) => {
+     // #swagger.tags = ['Notes']
     const { id: noteId } = req.params;
 
     try {
@@ -44,6 +47,7 @@ const getNoteById = async (req, res) => {
 }
 
 const createNote = async (req, res) => {
+        // #swagger.tags = ['Notes']
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
@@ -74,16 +78,26 @@ const createNote = async (req, res) => {
 };
 
 const updateNote = async (req, res) => {
+        // #swagger.tags = ['Notes']
     try {
         const id = req.params.id;
 
+        const note = {
+            title: req.body.title,
+            description: req.body.description,
+            category: req.body.category,
+            priority: req.body.priority,
+            status: req.body.status,
+            dueDate: req.body.dueDate,
+            assignedTo: req.body.assignedTo
+        }
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() });
+            return res.status(422).json({ errors: errors.array() })
         }
 
-        const response = await mongodb.getDatabase().db().collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: req.body });
+        const response = await mongodb.getDatabase().db().collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: note });
 
         if (response.acknowledged) {
             res.status(200).json(response);
@@ -97,6 +111,7 @@ const updateNote = async (req, res) => {
 };
 
 const deleteNote = async (req, res) => {
+        // #swagger.tags = ['Notes']
     try {
         const id = new ObjectId(req.params.id);
         const response = await mongodb.getDatabase().db().collection(collection).deleteOne({ _id: id }, true);

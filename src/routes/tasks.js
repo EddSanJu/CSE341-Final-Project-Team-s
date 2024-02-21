@@ -14,8 +14,8 @@ routes.post('/', [
     check('description')
         .isString()
         .notEmpty()
-        .isLength({ min: 1, max: 50 })
-        .withMessage('Please enter a description'),
+        .isLength({ min: 1, max: 200 })
+        .withMessage('Please enter a description. Max characters 50'),
     check('due_date')
         .matches(/^\d{4}-\d{2}-\d{2}$/)
         .isAfter(new Date().toISOString().split('T')[0])
@@ -37,8 +37,8 @@ routes.put('/:id', [
     check('description')
         .isString()
         .notEmpty()
-        .isLength({ min: 1, max: 50 })
-        .withMessage('Please enter a description'),
+        .isLength({ min: 1, max: 200 })
+        .withMessage('Please enter a description. Max characters 50'),
     check('due_date')
         .matches(/^\d{4}-\d{2}-\d{2}$/)
         .isAfter(new Date().toISOString().split('T')[0])
