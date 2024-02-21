@@ -20,7 +20,7 @@ const doc = {
             type: 'oauth2',
             authorizationUrl: process.env.SERVER_URL,
             tokenUrl: process.env.GITHUB_CALLBACK_URL,
-            uthorizationUrl: '',
+            // uthorizationUrl: '',
             scopes: {
                 //Reminder Scopes
                 getReminders: 'Grant access to get all the reminders from the database',
