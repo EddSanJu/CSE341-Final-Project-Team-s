@@ -7,7 +7,7 @@ const collection = 'reminders';
 const getReminders = async (req, res) => {
     // #swagger.tags = ['Reminders']
     try {
-        const reminderId = req.params.reminderId || null; 
+        const reminderId = req.params.reminderId || null;
         let result = null;
 
         if (reminderId) {
@@ -31,7 +31,7 @@ const getReminders = async (req, res) => {
 }
 
 const createReminder = async (req, res) => {
-        // #swagger.tags = ['Reminders']
+    // #swagger.tags = ['Reminders']
 
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -42,7 +42,7 @@ const createReminder = async (req, res) => {
         const reminder = {
             title: req.body.title,
             description: req.body.description,
-            date: req.body.date, 
+            date: req.body.date,
         }
 
         const response = await mongodb.getDatabase().db().collection(collection).insertOne(reminder);
@@ -58,7 +58,7 @@ const createReminder = async (req, res) => {
 }
 
 const getReminderById = async (req, res) => {
-        // #swagger.tags = ['Reminders']
+    // #swagger.tags = ['Reminders']
 
     try {
         const reminderId = req.params.reminderId;
@@ -75,8 +75,34 @@ const getReminderById = async (req, res) => {
     }
 }
 
+const updateReminder = async (req, res) => {
+    // #swagger.tags = ['Reminders']
+    try {
+        const id = req.params.id;
+        const reminder = {
+            title: req.body.title,
+            description: req.body.description,
+            date: req.body.date,
+        }
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() })
+        }
+
+        const response = await mongodb.getDatabase().db().collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: reminder });
+        if (response.acknowledged) {
+            res.status(200).json(response);
+        } else {
+            res.status(500).json(response.error || 'There was an error updating the reminder.');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json(err);
+    }
+}
+
 const deleteReminder = async (req, res) => {
-        // #swagger.tags = ['Reminders']
+    // #swagger.tags = ['Reminders']
 
     const reminderId = new ObjectId(req.params.reminderId)
     const response = await mongodb.getDatabase().db().collection(collection).deleteOne({ _id: reminderId }, true);
@@ -92,5 +118,6 @@ module.exports = {
     getReminders,
     createReminder,
     getReminderById,
+    updateReminder,
     deleteReminder
 }
