@@ -1,6 +1,7 @@
 const { ObjectId } = require('mongodb');
 const mongodb = require('../db/db');
 const { validationResult } = require('express-validator');
+const { response } = require('express');
 
 const collection = 'reminders';
 
@@ -84,22 +85,34 @@ const updateReminder = async (req, res) => {
             description: req.body.description,
             date: req.body.date,
         }
+
+        console.log('Updating reminder with ID:', id);
+        console.log('Update data:', reminder);
+
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() })
+            return res.status(422).json({ errors: errors.array() });
         }
 
         const response = await mongodb.getDatabase().db().collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: reminder });
+
+        console.log('MongoDB Response:', response);
+
         if (response.acknowledged) {
-            res.status(200).json(response);
+            res.status(200).json({ message: 'Reminder updated successfully' });
         } else {
-            res.status(500).json(response.error || 'There was an error updating the reminder.');
+            res.status(500).json({ error: 'There was an error updating the reminder.' });
         }
     } catch (err) {
         console.error(err);
-        res.status(500).json(err);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
+module.exports = {
+    updateReminder
+}
+
 
 const deleteReminder = async (req, res) => {
     // #swagger.tags = ['Reminders']
