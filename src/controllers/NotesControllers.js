@@ -2,7 +2,7 @@ const { ObjectId } = require('mongodb');
 const mongodb = require('../db/db');
 const { validationResult } = require('express-validator');
 
-const collection = 'note';
+const collection = 'notes';
 
 const getNote = async (req, res) => {
     try {
