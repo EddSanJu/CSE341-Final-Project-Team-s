@@ -1,9 +1,11 @@
 const axios = require('axios');
+const dotenv = require('dotenv');
+dotenv.config();
 
 describe("Get All Notes", () => {
     test("Obtaining all notes", async () => {
         try {
-            const response = await axios.get("http://localhost:3000/notes");
+            const response = await axios.get(process.env.SERVER_URL + "/notes");
             const notes = response.data;
 
             const expectedNotesFormat = {
@@ -28,10 +30,10 @@ describe("Get All Notes", () => {
 describe("Get Specific Notes", () => {
     test("Obtaining an specific note", async () => {
         try {
-            const notes = await axios.get("http://localhost:3000/notes");
+            const notes = await axios.get(process.env.SERVER_URL + "/notes");
             const notesResponse = notes.data;
             if(notesResponse.length > 0){
-                const response = await axios.get(`http://localhost:3000/notes/${notesResponse[0]._id}`);
+                const response = await axios.get(process.env.SERVER_URL + `/notes/${notesResponse[0]._id}`);
                 const note = response.data;
 
                 const expectedNotesFormat = {
@@ -58,7 +60,7 @@ describe("Get Specific Notes", () => {
 describe("Create Note", () => {
     test("creating a note", async () => {
         try {
-            const response = await axios.post("http://localhost:3000/notes", {
+            const response = await axios.post(process.env.SERVER_URL + "/notes", {
                 "title": "unit Test",
                 "description": "unit Test",
                 "category": "unit Test",
@@ -84,11 +86,11 @@ describe("Create Note", () => {
 describe("Edit Specific Notes", () => {
     test("Editing an specific note", async () => {
         try {
-            const notes = await axios.get("http://localhost:3000/notes");
+            const notes = await axios.get(process.env.SERVER_URL + "/notes");
             const notesResponse = notes.data;
 
             if(notesResponse.length > 0){
-                const response = await axios.put(`http://localhost:3000/notes/${notesResponse[0]._id}`, {
+                const response = await axios.put(process.env.SERVER_URL + `/notes/${notesResponse[0]._id}`, {
                     title:  "NEW EDITED TITLE",
                     description:  notesResponse[0].description,
                     category:  notesResponse[0].category,
@@ -117,10 +119,10 @@ describe("Edit Specific Notes", () => {
 describe("Delete Specific Notes", () => {
     test("Eliminating an specific note", async () => {
         try {
-            const notes = await axios.get("http://localhost:3000/notes");
+            const notes = await axios.get(process.env.SERVER_URL + "/notes");
             const notesResponse = notes.data;
             if(notesResponse.length > 0){
-                const response = await axios.delete(`http://localhost:3000/notes/${notesResponse[0]._id}`);
+                const response = await axios.delete(process.env.SERVER_URL + `/notes/${notesResponse[0]._id}`);
 
                 expect(response.status).toBe(200);
                 expect(response.data).toEqual('Note deleted');
