@@ -40,13 +40,13 @@ const createUser = async (req, res) => {
     }
     try {
         const user = {
+            gitHubUser: req.body.login,
             name: req.body.name,
-            lastname: req.body.lastname,
             email: req.body.email,
-            birthday: req.body.birthday,
-            phone: req.body.phone,
-            address: req.body.address,
-            occupation: req.body.occupation
+            userImg: req.body.avatar_url,
+            company: req.body.company,
+            location: req.body.location,
+            bio: req.body.bio
         }
 
         const response = await createDbUser(user);
@@ -63,12 +63,12 @@ const createUser = async (req, res) => {
 }
 
 const createDbUser = async (user) => {
-    console.log(user.gitHubUser)
+    //console.log(user.gitHubUser)
     const newUser = await gitHubUserExist(user.gitHubUser)
-    console.log(newUser)
+    //console.log(newUser)
     if (!newUser) {
         const response = await mongodb.getDatabase().db().collection(collection).insertOne(user);
-        console.log("created")
+        //console.log("created")
         return response
     }
     return false
@@ -80,13 +80,13 @@ const updateUser = async (req, res) => {
     try {
         const id = req.params.id;
         const user = {
+            gitHubUser: req.body.login,
             name: req.body.name,
-            lastname: req.body.lastname,
             email: req.body.email,
-            birthday: req.body.birthday,
-            phone: req.body.phone,
-            address: req.body.address,
-            occupation: req.body.occupation
+            userImg: req.body.avatar_url,
+            company: req.body.company,
+            location: req.body.location,
+            bio: req.body.bio
         }
 
         const errors = validationResult(req)
