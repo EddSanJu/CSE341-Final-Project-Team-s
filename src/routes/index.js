@@ -9,6 +9,10 @@ routes.get('/', (req, res) => {
     res.send(req.session.user !== undefined ? `Logged In as ${req.session.user.displayName}` : 'Logged Out | Welcome to AGENDA API');
 });
 routes.use('/users', require('./users'));
+routes.use('/reminders', require('./reminders'));
+routes.use('/tasks', require('./tasks'));
+routes.use('/notes', require('./notes'));
+
 
 routes.get('/login', passport.authenticate('github'), (req, res) => {
     //  #swagger.tags = ['Authentication'] 
