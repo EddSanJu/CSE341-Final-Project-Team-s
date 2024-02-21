@@ -5,8 +5,8 @@ const { check } = require('express-validator');
 
 const { isAuthenticated } = require('../middleware/authenticate');
 
-routes.get('/', isAuthenticated, notes.getNote);
-routes.get('/:id', isAuthenticated, notes.getNote);
+routes.get('/', notes.getNote);
+routes.get('/:id', notes.getNote);
 routes.post('/', [
     check('title')
         .isString()
@@ -29,7 +29,7 @@ routes.post('/', [
     check('assignedTo')
         .isString()
         .isLength({ max: 50 })
-], isAuthenticated, notes.createNote);
+], notes.createNote);
 routes.put('/:id', [
     check('title')
         .isString()
@@ -52,7 +52,7 @@ routes.put('/:id', [
     check('assignedTo')
         .isString()
         .isLength({ max: 50 })
-], isAuthenticated, notes.updateNote);
-routes.delete('/:id', isAuthenticated, notes.deleteNote);
+], notes.updateNote);
+routes.delete('/:id', notes.deleteNote);
 
 module.exports = routes;
