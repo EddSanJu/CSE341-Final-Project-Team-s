@@ -77,6 +77,7 @@ const getReminderById = async (req, res) => {
 }
 
 const updateReminder = async (req, res) => {
+    console.log(req.body)
     // #swagger.tags = ['Reminders']
     try {
         const id = req.params.id;
@@ -85,34 +86,24 @@ const updateReminder = async (req, res) => {
             description: req.body.description,
             date: req.body.date,
         }
-
-        console.log('Updating reminder with ID:', id);
-        console.log('Update data:', reminder);
-
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() });
+            return res.status(422).json({ errors: errors.array() })
         }
 
         const response = await mongodb.getDatabase().db().collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: reminder });
-
-        console.log('MongoDB Response:', response);
-
+        console.log(response)
         if (response.acknowledged) {
-            res.status(200).json({ message: 'Reminder updated successfully' });
+            res.status(200).json(response);
         } else {
-            res.status(500).json({ error: 'There was an error updating the reminder.' });
+            res.status(500).json(response.error || 'There was an error updating the reminder.');
         }
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json(err);
     }
-}
 
-module.exports = {
-    updateReminder
 }
-
 
 const deleteReminder = async (req, res) => {
     // #swagger.tags = ['Reminders']
