@@ -7,7 +7,7 @@ const GithubStrategy = require('passport-github2').Strategy;
 const dotenv = require('dotenv');
 dotenv.config();
 const PORT = process.env.PORT || 3000;
-
+const { createDbUser } = require('./controllers/UsersControllers')
 // const connectDB = require('./db/db');
 
 const app = express();
@@ -28,7 +28,7 @@ app.use(bodyParser.json())
         next();
     });
 
-    app.use('/', require('./routes'));
+app.use('/', require('./routes'));
 
 passport.use(new GithubStrategy(
     {
@@ -36,8 +36,21 @@ passport.use(new GithubStrategy(
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
         callbackURL: process.env.GITHUB_CALLBACK_URL
     },
-    function(accessToken, refreshToken, profile, done) {
-        return done(null, profile)
+    function (accessToken, refreshToken, profile, done) {
+        //console.log(profile)
+
+        const user = {
+            gitHubUser: profile._json.login,
+            name: profile._json.name,
+            email: profile._json.email,
+            userImg: profile._json.avatar_url,
+            company: profile._json.company,
+            location: profile._json.location,
+            bio: profile._json.bio
+        }
+        createDbUser(user).then(response => {
+            return done(null, { ...profile, id: response.insertedId })
+        })
     }
 ));
 
@@ -50,9 +63,9 @@ passport.deserializeUser((user, done) => {
 });
 
 app.get('/github/callback', passport.authenticate('github',
-    { 
-        failureRedirect: '/api-docs/', 
-        session: false 
+    {
+        failureRedirect: '/api-docs/',
+        session: false
     }),
     (req, res) => {
         req.session.user = req.user;
@@ -64,8 +77,8 @@ mongodb.initDb((err) => {
     if (err) {
         console.log(err)
     } else {
-      app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`)
-      })
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`)
+        })
     }
 });
