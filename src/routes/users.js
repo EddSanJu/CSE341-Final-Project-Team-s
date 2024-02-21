@@ -4,7 +4,7 @@ const routes = express.Router();
 const { check } = require('express-validator');
 const { isAuthenticated } = require('../middleware/authenticate');
 
-routes.get('/', users.getUser);
+routes.get('/', isAuthenticated, users.getUser);
 routes.get('/:id', isAuthenticated, users.getUser);
 routes.post('/',[
     check('name')
