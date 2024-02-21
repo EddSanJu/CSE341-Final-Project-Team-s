@@ -10,6 +10,8 @@ routes.get('/', (req, res) => {
 routes.use('/users', require('./users'));
 routes.use('/reminders', require('./reminders'));
 routes.use('/tasks', require('./tasks'));
+routes.use('/notes', require('./notes'));
+
 
 routes.get('/login', passport.authenticate('github'), (req, res) => {
     //  #swagger.tags = ['Authentication'] 

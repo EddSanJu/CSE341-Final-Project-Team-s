@@ -1,11 +1,11 @@
 const express = require('express');
-const note = require('../controllers/NotesController');
+const notes = require('../controllers/NotesControllers');
 const routes = express.Router();
 const { check } = require('express-validator');
 const { isAuthenticated } = require('../middleware/authenticate');
 
-routes.get('/', isAuthenticated, note.getNote);
-routes.get('/:id', isAuthenticated, note.getNote);
+routes.get('/', isAuthenticated, notes.getNote);
+routes.get('/:id', isAuthenticated, notes.getNote);
 routes.post('/', [
     check('title')
         .isString()
@@ -28,7 +28,7 @@ routes.post('/', [
     check('assignedTo')
         .isString()
         .isLength({ max: 50 })
-], isAuthenticated, note.createNote);
+], isAuthenticated, notes.createNote);
 routes.put('/:id', [
     check('title')
         .isString()
@@ -51,7 +51,7 @@ routes.put('/:id', [
     check('assignedTo')
         .isString()
         .isLength({ max: 50 })
-], isAuthenticated, note.updateNote);
-routes.delete('/:id', isAuthenticated, note.deleteNote);
+], isAuthenticated, notes.updateNote);
+routes.delete('/:id', isAuthenticated, notes.deleteNote);
 
 module.exports = routes;
