@@ -2,11 +2,11 @@ const dotenv = require('dotenv');
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 const swaggerAutogen = require('swagger-autogen')();
-// const host = 'crud-agenda-2hjq.onrender.com';
-// const schemas = ['https', 'http'];
+const host = 'localhost:3000';
+const schemas = ['http', 'https'];
 
-const host = 'cse341w34lastproject.onrender.com';
-const schemas = ['https', 'http'];
+// const host = 'crud-agenda-2hjq.onrender.com';
+// const schemas = ['https'];
 
 const doc = {
     info: {

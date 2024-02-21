@@ -39,19 +39,22 @@ const createUser = async (req, res) => {
         return res.status(422).json({ errors: errors.array() })
     }
     try {
-        const contact = {
+        const user = {
             name: req.body.name,
             lastname: req.body.lastname,
-            birthday: req.body.birthday,
             email: req.body.email,
-            phone: req.body.phone
+            birthday: req.body.birthday,
+            phone: req.body.phone,
+            address: req.body.address,
+            occupation: req.body.occupation
         }
 
-        const response = await mongodb.getDatabase().db().collection(collection).insertOne(contact);
+        const response = await createDbUser(user);
+        //console.log(response);
         if (response.acknowledged) {
             res.status(200).send(response);
         } else {
-            res.status(500).send(response.error || 'There was an error creating the contact.');
+            res.status(500).send(response.error || 'There was an error creating the user.');
         }
     } catch (err) {
         console.error(err);
@@ -59,16 +62,31 @@ const createUser = async (req, res) => {
     }
 }
 
+const createDbUser = async (user) => {
+    console.log(user.gitHubUser)
+    const newUser = await gitHubUserExist(user.gitHubUser)
+    console.log(newUser)
+    if (!newUser) {
+        const response = await mongodb.getDatabase().db().collection(collection).insertOne(user);
+        console.log("created")
+        return response
+    }
+    return false
+}
+
+
 const updateUser = async (req, res) => {
     // #swagger.tags = ['Users']
     try {
         const id = req.params.id;
-        const contact = {
+        const user = {
             name: req.body.name,
             lastname: req.body.lastname,
-            birthday: req.body.birthday,
             email: req.body.email,
-            phone: req.body.phone
+            birthday: req.body.birthday,
+            phone: req.body.phone,
+            address: req.body.address,
+            occupation: req.body.occupation
         }
 
         const errors = validationResult(req)
@@ -76,11 +94,11 @@ const updateUser = async (req, res) => {
             return res.status(422).json({ errors: errors.array() })
         }
 
-        const response = await mongodb.getDatabase().db().collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: contact });
+        const response = await mongodb.getDatabase().db().collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: user });
         if (response.acknowledged) {
             res.status(200).json(response);
         } else {
-            res.status(500).json(response.error || 'There was an error updating the contact.');
+            res.status(500).json(response.error || 'There was an error updating the user.');
         }
     } catch (err) {
         console.error(err);
@@ -90,13 +108,44 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     // #swagger.tags = ['Users']
+    console.log(req.session.user)
     const id = new ObjectId(req.params.id)
     const response = await mongodb.getDatabase().db().collection(collection).deleteOne({ _id: id }, true);
 
     if (response.deletedCount > 0) {
         res.status(200).send('Item deleted');
+
+        //========== PENDING TO BE FIXED ===========
+        // if (req.session.user.id == req.params.id) {
+        //     req.logout(function (err) {
+        //         console.log("error")
+        //         if (err) { return next(err); }
+
+        //     })
+        //     res.redirect('./');
+        // }
     } else {
-        res.status(500).json(response.error || 'There was an error deleting the contact');
+        res.status(500).json(response.error || 'There was an error deleting the user');
+    }
+}
+
+const gitHubUserExist = async (gitHubUser) => {
+
+    try {
+        let exist = false;
+        let result = null;
+
+        if (gitHubUser) {
+            result = await mongodb.getDatabase().db().collection(collection).find({ gitHubUser: gitHubUser }).toArray();
+            //console.log(result);
+            exist = Boolean(result.length);
+        }
+
+        return exist;
+
+    } catch (error) {
+        console.error('Error getting data:', error);
+        return false;
     }
 }
 
@@ -104,5 +153,7 @@ module.exports = {
     getUser,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    gitHubUserExist,
+    createDbUser
 }
