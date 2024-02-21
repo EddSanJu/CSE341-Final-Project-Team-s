@@ -20,9 +20,6 @@ routes.post('/', [
         .matches(/^\d{4}-\d{2}-\d{2}$/)
         .isAfter(new Date().toISOString().split('T')[0])
         .withMessage('Please enter a valid date (e.g. YYYY-MM-DD) equal or greater than this year'),
-    check('priority')
-        .isIn(['Low', 'Medium', 'High'])
-        .withMessage('Please enter a valid status: Low, Medium, or High'),
     check('status')
         .isIn(['Pending', 'In progress', 'Completed'])
         .withMessage('Please enter a valid status: Pending, In progress, or Completed')
@@ -43,9 +40,6 @@ routes.put('/:id', [
         .matches(/^\d{4}-\d{2}-\d{2}$/)
         .isAfter(new Date().toISOString().split('T')[0])
         .withMessage('Please enter a valid date (e.g. 02/17/2024) equal or greater than this year'),
-    check('priority')
-        .isIn(['Low', 'Medium', 'High'])
-        .withMessage('Please enter a valid status: Low, Medium, or High'),
     check('status')
         .isIn(['Pending', 'In progress', 'Completed'])
         .withMessage('Please enter a valid status: Pending, In progress, or Completed')
