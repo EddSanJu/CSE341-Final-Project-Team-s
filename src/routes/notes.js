@@ -1,9 +1,9 @@
 const express = require('express');
 const notes = require('../controllers/NotesControllers');
 const routes = express.Router();
+const { check } = require('express-validator');
 
 const { isAuthenticated } = require('../middleware/authenticate');
-const { newNoteValidation, updateNoteValidation  } = require('../middleware/notesValidation');
 
 routes.get('/', isAuthenticated, notes.getNote);
 routes.get('/:id', isAuthenticated, notes.getNote);
