@@ -1,6 +1,7 @@
 const { ObjectId } = require('mongodb');
 const mongodb = require('../db/db');
 const { validationResult } = require('express-validator');
+const { response } = require('express');
 
 const collection = 'reminders';
 
@@ -76,6 +77,7 @@ const getReminderById = async (req, res) => {
 }
 
 const updateReminder = async (req, res) => {
+    console.log(req.body)
     // #swagger.tags = ['Reminders']
     try {
         const id = req.params.id;
@@ -90,6 +92,7 @@ const updateReminder = async (req, res) => {
         }
 
         const response = await mongodb.getDatabase().db().collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: reminder });
+        console.log(response)
         if (response.acknowledged) {
             res.status(200).json(response);
         } else {
@@ -99,6 +102,7 @@ const updateReminder = async (req, res) => {
         console.error(err);
         res.status(500).json(err);
     }
+
 }
 
 const deleteReminder = async (req, res) => {
