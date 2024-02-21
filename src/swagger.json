@@ -13,9 +13,8 @@
   "securityDefinitions": {
     "GitHubOAuth": {
       "type": "oauth2",
-      "authorizationUrl": "http://localhost:3000",
-      "tokenUrl": "http://localhost:3000/github/callback",
-      "uthorizationUrl": "",
+      "authorizationUrl": "https://cse341w34lastproject.onrender.com/github/callback",
+      "tokenUrl": "http://github.com/login/oauth/access_token",
       "scopes": {
         "getReminders": "Grant access to get all the reminders from the database",
         "createReminder": "Grant access to create a reminder in the database",

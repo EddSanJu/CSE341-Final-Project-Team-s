@@ -18,9 +18,9 @@ const doc = {
     securityDefinitions: {
         GitHubOAuth: {
             type: 'oauth2',
-            authorizationUrl: process.env.SERVER_URL,
-            tokenUrl: process.env.GITHUB_CALLBACK_URL,
-            uthorizationUrl: '',
+            authorizationUrl: 'https://cse341w34lastproject.onrender.com/github/callback',
+            tokenUrl: 'http://github.com/login/oauth/access_token',
+            // uthorizationUrl: '',
             scopes: {
                 //Reminder Scopes
                 getReminders: 'Grant access to get all the reminders from the database',
