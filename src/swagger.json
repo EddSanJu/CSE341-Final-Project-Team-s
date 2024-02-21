@@ -5,7 +5,7 @@
     "description": "Retrieve data for an authenticated user through web tokens making REST requests GET, POST, PUT, DELETE from a Tasks database in MongoDB.",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "crud-agenda-2hjq.onrender.com",
   "basePath": "/",
   "schemes": [
     "http",
