@@ -17,9 +17,6 @@ routes.post('/', [
     check('category')
         .isString()
         .isLength({ max: 50 }),
-    check('priority')
-        .isString()
-        .isIn(['low', 'medium', 'high']),
     check('status')
         .isString()
         .isIn(['pending', 'completed']),
@@ -40,9 +37,6 @@ routes.put('/:id', [
     check('category')
         .isString()
         .isLength({ max: 50 }),
-    check('priority')
-        .isString()
-        .isIn(['low', 'medium', 'high']),
     check('status')
         .isString()
         .isIn(['pending', 'completed']),
