@@ -2,11 +2,11 @@ const dotenv = require('dotenv');
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 const swaggerAutogen = require('swagger-autogen')();
-const host = 'localhost:3000';
-const schemas = ['http', 'https'];
+// const host = 'localhost:3000';
+// const schemas = ['http', 'https'];
 
-// const host = 'https://cse341w34lastproject.onrender.com';
-// const schemas = ['https'];
+const host = 'cse341w34lastproject.onrender.com';
+const schemas = ['https'];
 
 const doc = {
     info: {
